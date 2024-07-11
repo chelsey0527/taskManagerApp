@@ -60,6 +60,9 @@ const SignUpScreen: React.FC<Props> = ({route, navigation}) => {
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Regrister</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+        <Text style={styles.text}>or Sign in with your account</Text>
+      </TouchableOpacity>
     </View>
   );
 };

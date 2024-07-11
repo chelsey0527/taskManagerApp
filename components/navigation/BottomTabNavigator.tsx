@@ -33,7 +33,7 @@ const BottomTabNavigator: React.FC<BottomTabNavigatorProps> = ({
             iconName = 'trophy-outline';
           } else if (route.name === 'Profile') {
             iconName = 'person-outline';
-          } else if (route.name === 'NewTask') {
+          } else if (route.name === 'New Task') {
             iconName = 'add-circle-outline';
             return (
               <Ionicons
@@ -56,7 +56,7 @@ const BottomTabNavigator: React.FC<BottomTabNavigatorProps> = ({
         {props => <TaskScreen {...props} userId={userId} />}
       </Tab.Screen>
       <Tab.Screen
-        name="NewTask"
+        name="New Task"
         component={NewTaskScreen}
         options={{
           tabBarButton: props => (

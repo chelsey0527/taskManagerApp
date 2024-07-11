@@ -34,12 +34,10 @@ const App = () => {
     );
   }
 
-  const userId = user?.uid || '';
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={user ? 'Tasks' : 'SignIn'}>
+        <Stack.Navigator initialRouteName={user ? 'Main' : 'SignIn'}>
           <Stack.Screen
             name="SignUp"
             component={SignUpScreen}
@@ -58,8 +56,10 @@ const App = () => {
               ),
             }}
           />
-          <Stack.Screen name="Home" options={{headerShown: false}}>
-            {props => <BottomTabNavigator {...props} userId={userId} />}
+          <Stack.Screen name="Main" options={{headerShown: false}}>
+            {props => (
+              <BottomTabNavigator {...props} userId={user?.uid || ''} />
+            )}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

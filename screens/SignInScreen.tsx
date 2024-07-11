@@ -28,7 +28,7 @@ const LogInScreen: React.FC<Props> = ({navigation}) => {
       const user = await signUserIn(email, password);
       setError('');
       if (user) {
-        navigation.navigate('Home', {userId: user?.uid});
+        navigation.navigate('Main', {userId: user?.uid});
       }
     } catch (e) {
       setError(e.message);
