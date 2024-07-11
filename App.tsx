@@ -1,38 +1,48 @@
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, ActivityIndicator, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {onAuthStateChanged, User} from 'firebase/auth';
+import SignUpScreen from './screens/SignUpScreen';
+import SignInScreen from './screens/SignInScreen';
+import TaskScreen from './screens/TaskScreen';
+import {RootStackParamList} from './types/navigation';
+import 'react-native-gesture-handler';
+import {auth} from './config/firebase-config';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const Stack = createStackNavigator<RootStackParamList>();
 
-function App(): React.JSX.Element {
-  return (
-    <SafeAreaView>
-      <View>
-        <Text>Hello world</Text>
+const App = () => {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      setUser(user);
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" />
       </View>
+    );
+  }
+
+  return (
+    <SafeAreaView style={{flex: 1}}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={user ? 'Tasks' : 'SignIn'}>
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="Tasks" component={TaskScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaView>
   );
-}
-
-const styles = StyleSheet.create({
-  // sectionContainer: {
-  //   marginTop: 32,
-  //   paddingHorizontal: 24,
-  // },
-  // sectionTitle: {
-  //   fontSize: 24,
-  //   fontWeight: '600',
-  // },
-  // sectionDescription: {
-  //   marginTop: 8,
-  //   fontSize: 18,
-  //   fontWeight: '400',
-  // },
-  // highlight: {
-  //   fontWeight: '700',
-  // },
-});
+};
 
 export default App;
