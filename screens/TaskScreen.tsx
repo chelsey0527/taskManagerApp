@@ -1,4 +1,3 @@
-// src/screens/TaskScreen.tsx
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {getUserTasks} from '../services/firestore';
@@ -8,10 +7,12 @@ import {useNavigation} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation';
 
-type Props = StackScreenProps<RootStackParamList, 'Tasks'>;
+type Props = {
+  userId: string;
+  navigation: StackScreenProps<RootStackParamList, 'Tasks'>['navigation'];
+};
 
-const TaskScreen: React.FC<Props> = ({route, navigation}) => {
-  const {userId} = route.params;
+const TaskScreen: React.FC<Props> = ({userId, navigation}) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {

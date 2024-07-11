@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ActivityIndicator, View} from 'react-native';
+import {SafeAreaView, ActivityIndicator, View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {onAuthStateChanged, User} from 'firebase/auth';
@@ -10,6 +10,7 @@ import {RootStackParamList} from './types/navigation';
 import 'react-native-gesture-handler';
 import {auth} from './config/firebase-config';
 import CustomHeader from './components/CustomHeader';
+import BottomTabNavigator from './components/navigation/BottomTabNavigator';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -33,6 +34,8 @@ const App = () => {
     );
   }
 
+  const userId = user?.uid || '';
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
@@ -40,18 +43,24 @@ const App = () => {
           <Stack.Screen
             name="SignUp"
             component={SignUpScreen}
-            options={{header: props => <CustomHeader {...props} />}}
+            options={{
+              header: ({navigation, route}) => (
+                <CustomHeader routeName={route.name} />
+              ),
+            }}
           />
           <Stack.Screen
             name="SignIn"
             component={SignInScreen}
-            options={{header: props => <CustomHeader {...props} />}}
+            options={{
+              header: ({navigation, route}) => (
+                <CustomHeader routeName={route.name} />
+              ),
+            }}
           />
-          <Stack.Screen
-            name="Tasks"
-            component={TaskScreen}
-            options={{header: props => <CustomHeader {...props} />}}
-          />
+          <Stack.Screen name="Home" options={{headerShown: false}}>
+            {props => <BottomTabNavigator {...props} userId={userId} />}
+          </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

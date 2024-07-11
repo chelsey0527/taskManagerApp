@@ -1,13 +1,21 @@
 import React from 'react';
 import {View, Image, StyleSheet, Text} from 'react-native';
 
-const CustomHeader: React.FC = () => {
+interface CustomHeaderProps {
+  routeName: string;
+}
+
+const CustomHeader: React.FC<CustomHeaderProps> = ({routeName}) => {
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../assets/icon-header.png')}
-        style={styles.icon}
-      />
+      {routeName === 'SignIn' || routeName === 'SignUp' ? (
+        <Image
+          source={require('../assets/icon-header.png')}
+          style={styles.icon}
+        />
+      ) : (
+        <Text style={styles.title}>{routeName}</Text>
+      )}
     </View>
   );
 };
@@ -23,6 +31,10 @@ const styles = StyleSheet.create({
   icon: {
     width: 40,
     height: 40,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

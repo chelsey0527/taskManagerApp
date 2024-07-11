@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-// import {useNavigation} from '@react-navigation/native';
 import {signUserIn} from '../services/auth';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation';
@@ -29,7 +28,7 @@ const LogInScreen: React.FC<Props> = ({navigation}) => {
       const user = await signUserIn(email, password);
       setError('');
       if (user) {
-        navigation.navigate('Tasks', {userId: user?.uid});
+        navigation.navigate('Home', {userId: user?.uid});
       }
     } catch (e) {
       setError(e.message);
