@@ -30,7 +30,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 setPersistence(auth, inMemoryPersistence)
   .then(() => {
-    // Use AsyncStorage to persist user data
     console.log('Firebase Auth persistence set to AsyncStorage');
   })
   .catch(error => {

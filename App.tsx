@@ -9,6 +9,7 @@ import TaskScreen from './screens/TaskScreen';
 import {RootStackParamList} from './types/navigation';
 import 'react-native-gesture-handler';
 import {auth} from './config/firebase-config';
+import CustomHeader from './components/CustomHeader';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -36,9 +37,21 @@ const App = () => {
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName={user ? 'Tasks' : 'SignIn'}>
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="Tasks" component={TaskScreen} />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUpScreen}
+            options={{header: props => <CustomHeader {...props} />}}
+          />
+          <Stack.Screen
+            name="SignIn"
+            component={SignInScreen}
+            options={{header: props => <CustomHeader {...props} />}}
+          />
+          <Stack.Screen
+            name="Tasks"
+            component={TaskScreen}
+            options={{header: props => <CustomHeader {...props} />}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

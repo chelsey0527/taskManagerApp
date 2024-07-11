@@ -1,6 +1,13 @@
 import React, {useState} from 'react';
-import {View, TextInput, Button, Text, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {
+  View,
+  TextInput,
+  Button,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+// import {useNavigation} from '@react-navigation/native';
 import {signUserIn} from '../services/auth';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation';
@@ -21,7 +28,9 @@ const LogInScreen: React.FC<Props> = ({navigation}) => {
       console.log('Attempting to sign in with email:', email, ' ', password);
       const user = await signUserIn(email, password);
       setError('');
-      navigation.navigate('Tasks', {userId: user?.uid});
+      if (user) {
+        navigation.navigate('Tasks', {userId: user?.uid});
+      }
     } catch (e) {
       setError(e.message);
     }
@@ -31,7 +40,7 @@ const LogInScreen: React.FC<Props> = ({navigation}) => {
     <View style={styles.container}>
       <Text style={styles.title}>Sign In</Text>
       <TextInput
-        style={styles.input}
+        style={error ? styles.errorInput : styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
@@ -39,14 +48,21 @@ const LogInScreen: React.FC<Props> = ({navigation}) => {
         autoCapitalize="none"
       />
       <TextInput
-        style={styles.input}
+        style={error ? styles.errorInput : styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Sign In" onPress={handleSignIn} />
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+      <Text style={styles.error}>
+        {error ? 'Incorrect e-mail or password.' : ''}
+      </Text>
+      <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+        <Text style={styles.buttonText}>Sign In</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <Text style={styles.text}>or Sign Up for free</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -66,14 +82,40 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: 'lightgray',
     borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 12,
+    paddingLeft: 8,
+  },
+  errorInput: {
+    height: 40,
+    borderColor: '#D8451D',
+    borderWidth: 1,
+    borderRadius: 5,
     marginBottom: 12,
     paddingLeft: 8,
   },
   error: {
-    color: 'red',
-    marginTop: 12,
+    height: 16,
+    color: '#D8451D',
+    textAlign: 'center',
+  },
+  button: {
+    height: 40,
+    backgroundColor: 'salmon',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+    color: 'blue',
+  },
+  buttonText: {
+    fontSize: 16,
+    color: 'white',
+  },
+  text: {
+    marginTop: 10,
     textAlign: 'center',
   },
 });

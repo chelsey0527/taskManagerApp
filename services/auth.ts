@@ -33,7 +33,9 @@ export const signUserIn = async (email: string, password: string) => {
     const user = userCredential.user;
     return user;
   } catch (error) {
-    console.error('Error signing in: ', error);
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error('Error signing in:', errorCode, errorMessage);
     throw error;
   }
 };

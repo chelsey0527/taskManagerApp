@@ -1,13 +1,19 @@
-import React, {useState} from 'react';
-import {View, TextInput, Button, Text, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import {signUserUp} from '../services/auth';
-import {useNavigation} from '@react-navigation/native';
+// import {useNavigation} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation';
 
 type Props = StackScreenProps<RootStackParamList, 'SignUp'>;
 
-const SignUpScreen: React.FC<Props> = ({navigation}) => {
+const SignUpScreen: React.FC<Props> = ({route, navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -18,13 +24,19 @@ const SignUpScreen: React.FC<Props> = ({navigation}) => {
         setError('Email and password are required');
         return;
       }
-      await signUserUp(email, password);
+      const user = await signUserUp(email, password);
       setError('');
       navigation.navigate('SignIn');
     } catch (e) {
-      setError(e.message);
+      if (e.code == 'auth/invalid-email') {
+        setError('Invalid email.');
+      } else if (e.code == 'auth/weak-password') {
+        setError('Password shorter than 6 characters.');
+      }
     }
   };
+
+  useEffect(() => {}, [email, password, error]);
 
   return (
     <View style={styles.container}>
@@ -34,6 +46,8 @@ const SignUpScreen: React.FC<Props> = ({navigation}) => {
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
       <TextInput
         style={styles.input}
@@ -42,8 +56,10 @@ const SignUpScreen: React.FC<Props> = ({navigation}) => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Register" onPress={handleSignUp} />
-      {error ? <Text>{error}</Text> : null}
+      <Text style={styles.error}>{error}</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+        <Text style={styles.buttonText}>Regrister</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -63,14 +79,40 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: 'lightgray',
     borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 12,
+    paddingLeft: 8,
+  },
+  errorInput: {
+    height: 40,
+    borderColor: '#D8451D',
+    borderWidth: 1,
+    borderRadius: 5,
     marginBottom: 12,
     paddingLeft: 8,
   },
   error: {
-    color: 'red',
-    marginTop: 12,
+    height: 16,
+    color: '#D8451D',
+    textAlign: 'center',
+  },
+  button: {
+    height: 40,
+    backgroundColor: 'salmon',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+    color: 'blue',
+  },
+  buttonText: {
+    fontSize: 16,
+    color: 'white',
+  },
+  text: {
+    marginTop: 10,
     textAlign: 'center',
   },
 });
