@@ -1,6 +1,7 @@
 export type RootStackParamList = {
   SignUp: undefined;
   SignIn: undefined;
+  EnterUserInformation: {userId: string};
   Main: {userId: string};
   Home: {userId: string};
   Tasks: {userId: string};

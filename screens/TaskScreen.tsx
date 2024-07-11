@@ -78,13 +78,20 @@ const TaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
   );
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={tasks}
-        keyExtractor={item => item.id}
-        renderItem={renderItem}
-        contentContainerStyle={styles.listContainer}
-      />
+    <View style={tasks.length === 0 ? styles.emptyContiner : styles.container}>
+      {tasks.length === 0 ? (
+        <View>
+          <Text style={styles.emptyContinerText}>Record not found 😭</Text>
+          <Text style={styles.emptyContinerText}>Try to add a new task!</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={tasks}
+          keyExtractor={item => item.id}
+          renderItem={renderItem}
+          contentContainerStyle={styles.listContainer}
+        />
+      )}
     </View>
   );
 };
@@ -92,8 +99,17 @@ const TaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: 'white',
     paddingTop: 16,
+  },
+  emptyContiner: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyContinerText: {
+    textAlign: 'center',
   },
   listContainer: {
     paddingBottom: 16,

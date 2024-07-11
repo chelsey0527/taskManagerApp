@@ -16,6 +16,7 @@ import {
 import {db} from '../config/firebase-config';
 import {Task} from '../types/task';
 import {Leaderboard} from '../types/leaderboard';
+import {UserInfo} from 'firebase/auth';
 
 // <Tasks>
 // Function to get tasks for a user
@@ -120,6 +121,39 @@ export const getLeaderboard = async (
     return leaderboard;
   } catch (error) {
     console.error('Error deleting task: ', error);
+    throw error;
+  }
+};
+
+// <Profile>
+// Function to save user information
+export const getUserInfo = async (userId: string): Promise<UserInfo | null> => {
+  try {
+    const q = query(collection(db, 'users'), where('userId', '==', userId));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const doc = querySnapshot.docs[0];
+      const data = doc.data() as UserInfo;
+      return {id: doc.id, ...data};
+    } else {
+      console.log('No user found with the given ID');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching userInfo: ', error);
+    throw error;
+  }
+};
+
+export const saveUserInfo = async (userId: string, username: string) => {
+  try {
+    await addDoc(collection(db, 'users'), {
+      userId,
+      username,
+    });
+  } catch (error) {
+    console.error('Error adding user information:', error);
     throw error;
   }
 };

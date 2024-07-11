@@ -69,7 +69,9 @@ const BottomTabNavigator: React.FC<BottomTabNavigatorProps> = ({
         {props => <NewTaskScreen {...props} userId={userId} />}
       </Tab.Screen>
       <Tab.Screen name="Leaderboard" component={LeaderboardScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile">
+        {props => <ProfileScreen {...props} userId={userId} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 };
