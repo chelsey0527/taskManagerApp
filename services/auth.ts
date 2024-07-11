@@ -6,6 +6,7 @@ import {
 } from 'firebase/auth';
 import {auth} from '../config/firebase-config';
 
+// Function to sign up user
 export const signUserUp = async (email: string, password: string) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -23,6 +24,7 @@ export const signUserUp = async (email: string, password: string) => {
   }
 };
 
+// Function to sign in user
 export const signUserIn = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -40,6 +42,7 @@ export const signUserIn = async (email: string, password: string) => {
   }
 };
 
+// Function to sign out user
 export const signUserOut = async () => {
   try {
     await signOut(auth);
