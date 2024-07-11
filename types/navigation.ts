@@ -4,7 +4,8 @@ export type RootStackParamList = {
   Main: {userId: string};
   Home: {userId: string};
   Tasks: {userId: string};
-  Leaderboard: undefined;
+  UpdateTask: {task: object; userId: string};
   NewTask: undefined;
+  Leaderboard: undefined;
   Profile: undefined;
 };

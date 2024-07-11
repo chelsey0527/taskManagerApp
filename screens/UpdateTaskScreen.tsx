@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   TextInput,
@@ -6,41 +6,43 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import {addTask} from '../services/firestore';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation';
+import {updateTask} from '../services/firestore';
+import {Task} from '../types/task';
 
-type Props = StackScreenProps<RootStackParamList, 'NewTask'> & {
+type Props = StackScreenProps<RootStackParamList, 'UpdateTask'> & {
   userId: string;
+  task: Object;
 };
-const NewTaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
-  const [name, setName] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
-  const [deadline, setDeadline] = useState('');
+
+const UpdateTaskScreen: React.FC<Props> = ({route, navigation}) => {
+  const {task, userId} = route.params;
+  console.log(task);
+  const [name, setName] = useState(task.name);
+  const [category, setCategory] = useState(task.category);
+  const [description, setDescription] = useState(task.description);
+  const [deadline, setDeadline] = useState(
+    new Date(task.deadline).toISOString().split('T')[0],
+  );
   const [error, setError] = useState('');
 
-  const handleAddTask = async () => {
+  const handleUpdateTask = async () => {
     if (!name || !category || !description || !deadline) {
       setError('All fields are required');
       return;
     }
 
-    const newTask = {
-      userId,
+    const updatedTask = {
       name,
       category,
       description,
-      createdTime: Date.now(),
       deadline: new Date(deadline).getTime(),
-      completed: false,
     };
-    console.log('New task: ', newTask);
-    await addTask(newTask);
+
+    await updateTask(task.id, updatedTask);
     navigation.navigate('Tasks', {userId});
   };
-
-  useEffect(() => {}, [userId, name, category, description, deadline, error]);
 
   return (
     <View style={styles.container}>
@@ -73,8 +75,8 @@ const NewTaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
         onChangeText={setDeadline}
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
-      <TouchableOpacity style={styles.button} onPress={handleAddTask}>
-        <Text style={styles.buttonText}>Add new task</Text>
+      <TouchableOpacity style={styles.button} onPress={handleUpdateTask}>
+        <Text style={styles.buttonText}>Update Task</Text>
       </TouchableOpacity>
     </View>
   );
@@ -125,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewTaskScreen;
+export default UpdateTaskScreen;

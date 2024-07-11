@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {onAuthStateChanged, User} from 'firebase/auth';
 import SignUpScreen from './screens/SignUpScreen';
 import SignInScreen from './screens/SignInScreen';
-import TaskScreen from './screens/TaskScreen';
+import UpdateTaskScreen from './screens/UpdateTaskScreen';
 import {RootStackParamList} from './types/navigation';
 import 'react-native-gesture-handler';
 import {auth} from './config/firebase-config';
@@ -61,6 +61,14 @@ const App = () => {
               <BottomTabNavigator {...props} userId={user?.uid || ''} />
             )}
           </Stack.Screen>
+          <Stack.Screen
+            name="UpdateTask"
+            component={UpdateTaskScreen}
+            options={{
+              // headerShown: false,
+              presentation: 'modal',
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

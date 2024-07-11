@@ -51,21 +51,23 @@ const BottomTabNavigator: React.FC<BottomTabNavigatorProps> = ({
         tabBarInactiveTintColor: 'gray',
         tabBarShowLabel: false,
       })}>
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home">
+        {props => <HomeScreen {...props} userId={userId} />}
+      </Tab.Screen>
       <Tab.Screen name="Tasks">
         {props => <TaskScreen {...props} userId={userId} />}
       </Tab.Screen>
       <Tab.Screen
         name="New Task"
-        component={NewTaskScreen}
         options={{
           tabBarButton: props => (
             <TouchableOpacity {...props} style={styles.buttonAddTask}>
               <Ionicons name="add-circle" size={50} color="tomato" />
             </TouchableOpacity>
           ),
-        }}
-      />
+        }}>
+        {props => <NewTaskScreen {...props} userId={userId} />}
+      </Tab.Screen>
       <Tab.Screen name="Leaderboard" component={LeaderboardScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
