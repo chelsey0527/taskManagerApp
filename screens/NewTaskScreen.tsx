@@ -35,7 +35,6 @@ const NewTaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
       deadline: new Date(deadline).getTime(),
       completed: false,
     };
-    console.log('New task: ', newTask);
     await addTask(newTask);
     navigation.navigate('Tasks', {userId});
   };

@@ -1,17 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useIsFocused} from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {getUserTasks, deleteTask, updateTask} from '../services/firestore';
-import {signUserOut} from '../services/auth';
+import {
+  getUserTasks,
+  deleteTask,
+  toggleTaskCompletion,
+} from '../services/firestore';
 import {RootStackParamList} from '../types/navigation';
 import {Task} from '../types/task';
 
@@ -39,9 +34,8 @@ const TaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
   }, [isFocused]);
 
   const toggleComplete = async (task: Task) => {
-    await updateTask(task.id, {completed: !task.completed});
-    const updatedTasks = await getUserTasks(userId);
-    setTasks(updatedTasks);
+    await toggleTaskCompletion(task.id, !task.completed, userId);
+    fetchTasks();
   };
 
   const handleUpdate = (task: Task) => {
