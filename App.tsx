@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {onAuthStateChanged, User} from 'firebase/auth';
 import SignUpScreen from './screens/SignUpScreen';
 import SignInScreen from './screens/SignInScreen';
+import EnterUserInformationScreen from './screens/EnterUserInformationScreen';
 import UpdateTaskScreen from './screens/UpdateTaskScreen';
 import {RootStackParamList} from './types/navigation';
 import 'react-native-gesture-handler';
@@ -42,6 +43,7 @@ const App = () => {
             name="SignUp"
             component={SignUpScreen}
             options={{
+              title: 'Sign Up',
               header: ({navigation, route}) => (
                 <CustomHeader routeName={route.name} />
               ),
@@ -51,6 +53,7 @@ const App = () => {
             name="SignIn"
             component={SignInScreen}
             options={{
+              title: 'Sign In',
               header: ({navigation, route}) => (
                 <CustomHeader routeName={route.name} />
               ),
@@ -62,10 +65,16 @@ const App = () => {
             )}
           </Stack.Screen>
           <Stack.Screen
+            name="EnterUserInformation"
+            component={EnterUserInformationScreen}
+            options={{
+              title: 'Enter User Information',
+            }}
+          />
+          <Stack.Screen
             name="UpdateTask"
             component={UpdateTaskScreen}
             options={{
-              // headerShown: false,
               presentation: 'modal',
             }}
           />

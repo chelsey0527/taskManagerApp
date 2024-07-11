@@ -13,6 +13,7 @@ import {RootStackParamList} from '../types/navigation';
 type Props = StackScreenProps<RootStackParamList, 'NewTask'> & {
   userId: string;
 };
+
 const NewTaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');

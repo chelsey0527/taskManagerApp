@@ -24,9 +24,8 @@ const SignUpScreen: React.FC<Props> = ({route, navigation}) => {
         setError('Email and password are required');
         return;
       }
-      const user = await signUserUp(email, password);
+      const user = await signUserUp(email, password, navigation);
       setError('');
-      navigation.navigate('SignIn');
     } catch (e) {
       if (e.code == 'auth/invalid-email') {
         setError('Invalid email.');
@@ -58,7 +57,7 @@ const SignUpScreen: React.FC<Props> = ({route, navigation}) => {
       />
       <Text style={styles.error}>{error}</Text>
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>Regrister</Text>
+        <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
         <Text style={styles.text}>or Sign in with your account</Text>
@@ -97,7 +96,6 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   error: {
-    // height: 16,
     color: '#D8451D',
     textAlign: 'center',
   },

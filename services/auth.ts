@@ -7,7 +7,11 @@ import {
 import {auth} from '../config/firebase-config';
 
 // Function to sign up user
-export const signUserUp = async (email: string, password: string) => {
+export const signUserUp = async (
+  email: string,
+  password: string,
+  navigation: any,
+) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -15,6 +19,7 @@ export const signUserUp = async (email: string, password: string) => {
       password,
     );
     const user = userCredential.user;
+    navigation.navigate('EnterUserInformation', {userId: user.uid});
     return user;
   } catch (error) {
     const errorCode = error.code;
