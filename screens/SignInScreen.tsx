@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   error: {
-    height: 16,
+    // height: 16,
     color: '#D8451D',
     textAlign: 'center',
   },
