@@ -8976,6 +8976,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-progress@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "react-native-progress@npm:5.0.1"
+  dependencies:
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    react-native-svg: "*"
+  checksum: 10c0/a8c549609c18268ee8e0e95bfe3f4fad3eaeb7df5f2a4c69c72d5c229e56d19536055a6308b9aa501639702691b81ac0dd37794991aebe9793246eb3609dec38
+  languageName: node
+  linkType: hard
+
 "react-native-safe-area-context@npm:^4.10.8":
   version: 4.10.8
   resolution: "react-native-safe-area-context@npm:4.10.8"
@@ -10084,6 +10095,7 @@ __metadata:
     react-native: "npm:0.74.3"
     react-native-dotenv: "npm:^3.4.11"
     react-native-gesture-handler: "npm:^2.17.1"
+    react-native-progress: "npm:^5.0.1"
     react-native-safe-area-context: "npm:^4.10.8"
     react-native-screens: "npm:^3.32.0"
     react-native-vector-icons: "npm:^10.1.0"
