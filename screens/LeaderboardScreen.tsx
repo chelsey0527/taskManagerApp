@@ -26,6 +26,7 @@ const LeaderboardScreen: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log('set time period: ', timePeriod);
     fetchLeaderboard();
   }, [timePeriod]);
 

@@ -1,5 +1,7 @@
 export type Leaderboard = {
   userId: string;
-  completedTasks: number;
   username: string;
+  dailyCount: number;
+  weeklyCount: number;
+  monthlyCount: number;
 };
