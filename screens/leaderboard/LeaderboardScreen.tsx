@@ -69,12 +69,22 @@ const LeaderboardScreen: React.FC = () => {
           <Text style={styles.filterText}>Monthly</Text>
         </TouchableOpacity>
       </View>
-      <FlatList
-        data={leaderboard}
-        keyExtractor={item => item.userId}
-        renderItem={renderItem}
-        contentContainerStyle={styles.listContainer}
-      />
+
+      {leaderboard.length === 0 ? (
+        <View style={styles.emptyContiner}>
+          <Text style={styles.emptyContinerText}>No record.</Text>
+          <Text style={styles.emptyContinerText}>
+            Try to finish a task to be the firstone!
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={leaderboard}
+          keyExtractor={item => item.userId}
+          renderItem={renderItem}
+          contentContainerStyle={styles.listContainer}
+        />
+      )}
     </View>
   );
 };
@@ -84,6 +94,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: 'white',
+  },
+  emptyContiner: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyContinerText: {
+    textAlign: 'center',
   },
   filterContainer: {
     flexDirection: 'row',
