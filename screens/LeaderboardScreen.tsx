@@ -1,11 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
 import {getLeaderboard} from '../services/firestore';
 
 type LeaderboardEntry = {
   userId: string;
-  completedTasks: number;
-  username: string;
+  userInfo: {
+    username: string;
+  };
+  dailyCount: number;
+  weeklyCount: number;
+  monthlyCount: number;
 };
 
 const LeaderboardScreen: React.FC = () => {
@@ -13,9 +18,10 @@ const LeaderboardScreen: React.FC = () => {
   const [timePeriod, setTimePeriod] = useState<
     'dailyCount' | 'weeklyCount' | 'monthlyCount'
   >('dailyCount');
+  const isFocused = useIsFocused();
 
   const fetchLeaderboard = async () => {
-    const data = await getLeaderboard(timePeriod);
+    const data: LeaderboardEntry[] = await getLeaderboard(timePeriod);
     setLeaderboard(data);
   };
 
@@ -23,10 +29,23 @@ const LeaderboardScreen: React.FC = () => {
     fetchLeaderboard();
   }, [timePeriod]);
 
-  const renderItem = ({item}: {item: LeaderboardEntry}) => (
+  useEffect(() => {
+    if (isFocused) {
+      fetchLeaderboard();
+    }
+  }, [isFocused]);
+
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: LeaderboardEntry;
+    index: number;
+  }) => (
     <View style={styles.itemContainer}>
-      <Text>{item.username}</Text>
-      <Text>{item.completedTasks}</Text>
+      <Text style={styles.rank}>{index + 1}</Text>
+      <Text style={styles.username}>{item.userInfo.username}</Text>
+      <Text style={styles.count}>{item[timePeriod]}</Text>
     </View>
   );
 
@@ -53,6 +72,7 @@ const LeaderboardScreen: React.FC = () => {
         data={leaderboard}
         keyExtractor={item => item.userId}
         renderItem={renderItem}
+        contentContainerStyle={styles.listContainer}
       />
     </View>
   );
@@ -72,11 +92,14 @@ const styles = StyleSheet.create({
   filterButton: {
     padding: 10,
     borderRadius: 5,
-    backgroundColor: 'tomato',
+    backgroundColor: 'salmon',
   },
   filterText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  listContainer: {
+    paddingBottom: 16,
   },
   itemContainer: {
     flexDirection: 'row',
@@ -84,6 +107,19 @@ const styles = StyleSheet.create({
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+  },
+  rank: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  username: {
+    fontSize: 16,
+    flex: 1,
+    textAlign: 'center',
+  },
+  count: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

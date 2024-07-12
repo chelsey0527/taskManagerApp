@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: 'tomato',
+    backgroundColor: 'salmon',
   },
   taskDetails: {
     flexDirection: 'column',
