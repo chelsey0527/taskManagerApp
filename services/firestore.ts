@@ -81,6 +81,24 @@ export const getUserTasks = async (userId: string): Promise<Task[]> => {
   }
 };
 
+// Function to get incomplete tasks count for a user
+export const getIncompleteTasksCount = async (
+  userId: string,
+): Promise<number> => {
+  try {
+    const q = query(
+      collection(db, 'tasks'),
+      where('userId', '==', userId),
+      where('completed', '==', false),
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.size;
+  } catch (error) {
+    console.error('Error fetching incomplete tasks count: ', error);
+    throw error;
+  }
+};
+
 // Function to add a task
 export const addTask = async (task: Omit<Task, 'id'>) => {
   try {

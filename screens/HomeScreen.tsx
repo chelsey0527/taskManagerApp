@@ -1,27 +1,52 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
+import {getUserInfo, getIncompleteTasksCount} from '../services/firestore';
 
 type Props = {
   userId: string;
 };
 
 const HomeScreen: React.FC<Props> = ({userId}) => {
-  const [homeData, setHomeData] = useState<any>(null);
+  const [username, setUsername] = useState<string | null>(null);
+  const [incompleteTasksCount, setIncompleteTasksCount] = useState<
+    number | null
+  >(null);
+  const isFocused = useIsFocused();
+
+  const fetchHomeData = async () => {
+    try {
+      const user = await getUserInfo(userId);
+      const incompleteTasks = await getIncompleteTasksCount(userId);
+
+      console.log(user);
+      setUsername(user?.username || null);
+      setIncompleteTasksCount(incompleteTasks);
+    } catch (error) {
+      console.error('Error fetching home data:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchHomeData = async () => {
-      // const data = await fetchUserHomeData(userId);
-      const data = {};
-      setHomeData(data);
-    };
-
     fetchHomeData();
   }, [userId]);
 
+  useEffect(() => {
+    if (isFocused) {
+      fetchHomeData();
+    }
+  }, [isFocused]);
+
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
-      <Text>{homeData ? JSON.stringify(homeData) : 'Loading...'}</Text>
+      {username && incompleteTasksCount !== null ? (
+        <Text>
+          Hi {username}! You have {incompleteTasksCount}{' '}
+          {incompleteTasksCount <= 1 ? 'task' : 'tasks'} incomplete!
+        </Text>
+      ) : (
+        <Text>Loading...</Text>
+      )}
     </View>
   );
 };
