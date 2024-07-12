@@ -46,6 +46,8 @@ const SignUpScreen: React.FC<Props> = ({route, navigation}) => {
         setError('Invalid email.');
       } else if (e.code == 'auth/weak-password') {
         setError('Password shorter than 6 characters.');
+      } else if (e.code == 'auth/email-already-in-use') {
+        setError('E-mail already been used.');
       }
     }
   };
