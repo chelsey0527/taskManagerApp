@@ -24,7 +24,7 @@
    - [x] Allow the leaderboard to be filtered by time periods (daily, weekly, monthly)
 5. Bonous
    - [ ] Include notifications for task reminders using Firebase Cloud Messaging.
-   - [ ] Write unit tests for critical parts of the application
+   - [x] Write unit tests for critical parts of the application
    - [ ] Add the ability for users to upload and display images for each task using Firebase Storage
    - [x] Implement form validation for the authentication and task forms
    - [x] Use TypeScript for type safety
@@ -35,20 +35,54 @@
 
 ## Getting Started
 
-#### Prerequisites
+### Prerequistes
 
-- Install yarn
-- Install depenencies for ios
-  ```bash
-  yarn install
-  cd ios
-  pod install
-  cd ..
-  ```
-  Then go to Xcode `cmd + b` to download the app onto simulator
-
-#### Start the Metro Server
+Update .env.example and modify file name into .env
 
 ```bash
-yarn start # Then chose the simulator you want to work with
+API_KEY=YOUR_API_KEY
+AUTH_DOMAIN=YOUR_AUTH_DOMAIN
+PROJECT_ID=YOUR_PROJECT_ID
+STORAGE_BUCKET=YOUR_STORAGE_BUCKET
+MESSAGING_SENDER_ID=YOUR_MESSAGING_SENDER_ID
+APP_ID=YOUR_APP_ID
+```
+
+Go to project root
+
+```bash
+yarn install
+```
+
+### For iOS
+
+Install depenencies for ios
+
+```bash
+cd ios
+pod install
+cd ..
+```
+
+Then go to Xcode `cmd + b` to build the app with the following step to run (install) the app on to your simulator.
+Once the simulator is on, you may stop the run.
+
+```bash
+yarn start # Then chose i
+```
+
+If the App did not opend automatically, click the logo to manually open it.
+
+### For Android
+
+```bash
+yarn start # Then chose a
+```
+
+### Test
+
+Run unit test with jest
+
+```bash
+yarn test
 ```
