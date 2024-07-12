@@ -69,6 +69,7 @@ const App = () => {
             component={EnterUserInformationScreen}
             options={{
               title: 'Enter User Information',
+              headerLeft: () => null,
             }}
           />
           <Stack.Screen
