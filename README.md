@@ -1,5 +1,11 @@
 # taskManagerApp
 
+## 📖 Table of Contents 📖
+
+1. [To-do's](##To-do's)
+2. [Software design](##software-design)
+3. [Getting started](##getting-started)
+
 ## To-do's
 
 1. Create a new React Native Application
@@ -22,11 +28,6 @@
    - [ ] Add the ability for users to upload and display images for each task using Firebase Storage
    - [x] Implement form validation for the authentication and task forms
    - [x] Use TypeScript for type safety
-
-## 📖 Table of Contents 📖
-
-1. [Software design](##software-design)
-2. [Getting started](##getting-started)
 
 ## Software design
 
