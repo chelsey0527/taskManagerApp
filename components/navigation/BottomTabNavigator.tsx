@@ -3,10 +3,10 @@ import {TouchableOpacity, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../../screens/HomeScreen';
-import TaskScreen from '../../screens/TaskScreen';
-import LeaderboardScreen from '../../screens/LeaderboardScreen';
-import ProfileScreen from '../../screens/ProfileScreen';
-import NewTaskScreen from '../../screens/NewTaskScreen';
+import TaskScreen from '../../screens/tasks/TaskScreen';
+import NewTaskScreen from '../../screens/tasks/NewTaskScreen';
+import LeaderboardScreen from '../../screens/leaderboard/LeaderboardScreen';
+import ProfileScreen from '../../screens/profile/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 

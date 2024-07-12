@@ -6,10 +6,10 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import {saveUserInfo} from '../services/firestore';
+import {saveUserInfo} from '../../services/firestore';
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../types/navigation';
-import {validateRequiredField} from '../utils/validators';
+import {RootStackParamList} from '../../types/navigation';
+import {validateRequiredField} from '../../utils/validators';
 
 type Props = StackScreenProps<RootStackParamList, 'EnterUserInformation'>;
 

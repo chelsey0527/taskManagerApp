@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {signUserOut} from '../services/auth';
-import {getUserInfo} from '../services/firestore';
-import {UserInfo} from '../types/userInfo';
+import {signUserOut} from '../../services/auth';
+import {getUserInfo} from '../../services/firestore';
+import {UserInfo} from '../../types/userInfo';
 
 const ProfileScreen: React.FC<{userId: string}> = ({userId, navigation}) => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);

@@ -7,14 +7,14 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import {signUserIn} from '../services/auth';
+import {signUserIn} from '../../services/auth';
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../types/navigation';
+import {RootStackParamList} from '../../types/navigation';
 import {
   validateEmail,
   validatePassword,
   validateRequiredField,
-} from '../utils/validators';
+} from '../../utils/validators';
 
 type Props = StackScreenProps<RootStackParamList, 'SignIn'>;
 

@@ -6,9 +6,9 @@ import {
   getUserTasks,
   deleteTask,
   toggleTaskCompletion,
-} from '../services/firestore';
-import {RootStackParamList} from '../types/navigation';
-import {Task} from '../types/task';
+} from '../../services/firestore';
+import {RootStackParamList} from '../../types/navigation';
+import {Task} from '../../types/task';
 
 type Props = StackScreenProps<RootStackParamList, 'Tasks'> & {
   userId: string;

@@ -6,10 +6,10 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import {addTask} from '../services/firestore';
+import {addTask} from '../../services/firestore';
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../types/navigation';
-import {validateRequiredField, validateDate} from '../utils/validators';
+import {RootStackParamList} from '../../types/navigation';
+import {validateRequiredField, validateDate} from '../../utils/validators';
 
 type Props = StackScreenProps<RootStackParamList, 'NewTask'> & {
   userId: string;

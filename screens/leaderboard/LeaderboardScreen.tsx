@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
-import {getLeaderboard} from '../services/firestore';
+import {getLeaderboard} from '../../services/firestore';
 
 type LeaderboardEntry = {
   userId: string;

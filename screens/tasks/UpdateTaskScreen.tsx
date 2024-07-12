@@ -7,10 +7,10 @@ import {
   Text,
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../types/navigation';
-import {updateTask} from '../services/firestore';
-import {validateRequiredField, validateDate} from '../utils/validators';
-import {Task} from '../types/task';
+import {RootStackParamList} from '../../types/navigation';
+import {updateTask} from '../../services/firestore/tasks';
+import {validateRequiredField, validateDate} from '../../utils/validators';
+import {Task} from '../../types/task';
 
 type Props = StackScreenProps<RootStackParamList, 'UpdateTask'> & {
   userId: string;
