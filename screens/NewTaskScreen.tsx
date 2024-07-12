@@ -9,6 +9,7 @@ import {
 import {addTask} from '../services/firestore';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation';
+import {validateRequiredField, validateDate} from '../utils/validators';
 
 type Props = StackScreenProps<RootStackParamList, 'NewTask'> & {
   userId: string;
@@ -22,8 +23,17 @@ const NewTaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
   const [error, setError] = useState('');
 
   const handleAddTask = async () => {
-    if (!name || !category || !description || !deadline) {
-      setError('All fields are required');
+    if (
+      !validateRequiredField(name) ||
+      !validateRequiredField(category) ||
+      !validateRequiredField(deadline)
+    ) {
+      setError('Name, category, and deadline are required');
+      return;
+    }
+
+    if (!validateDate(deadline)) {
+      setError('Please enter a valid deadline (YYYY-MM-DD)');
       return;
     }
 

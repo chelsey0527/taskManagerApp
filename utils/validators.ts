@@ -14,4 +14,8 @@ export const validateRequiredField = (value: string): boolean => {
   return value.trim().length > 0;
 };
 
-// You can add more validation functions as needed
+// Date validation (YYYY-MM-DD format)
+export const validateDate = (date: string): boolean => {
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  return dateRegex.test(date);
+};

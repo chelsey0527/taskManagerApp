@@ -9,22 +9,25 @@ import {
 import {saveUserInfo} from '../services/firestore';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation';
+import {validateRequiredField} from '../utils/validators';
 
 type Props = StackScreenProps<RootStackParamList, 'EnterUserInformation'>;
 
 const EnterUserInformationScreen: React.FC<Props> = ({route, navigation}) => {
   const {userId} = route.params;
   const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
 
   const handleSave = async () => {
-    if (!username) {
-      alert('Username is required');
+    if (!validateRequiredField(username)) {
+      setError('Username is required');
       return;
     }
 
     try {
       await saveUserInfo(userId, username);
       navigation.navigate('Main', {userId});
+      setError('');
     } catch (error) {
       console.error('Error adding user information:', error);
     }
@@ -34,11 +37,12 @@ const EnterUserInformationScreen: React.FC<Props> = ({route, navigation}) => {
     <View style={styles.container}>
       <Text>User name</Text>
       <TextInput
-        style={styles.input}
+        style={error ? styles.errorInput : styles.input}
         placeholder="Username"
         value={username}
         onChangeText={setUsername}
       />
+      <Text style={styles.error}>{error}</Text>
       <TouchableOpacity style={styles.button} onPress={handleSave}>
         <Text style={styles.buttonText}>Create</Text>
       </TouchableOpacity>
@@ -61,6 +65,18 @@ const styles = StyleSheet.create({
     marginTop: 2,
     marginBottom: 12,
     paddingLeft: 8,
+  },
+  errorInput: {
+    height: 40,
+    borderColor: '#D8451D',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 12,
+    paddingLeft: 8,
+  },
+  error: {
+    color: '#D8451D',
+    textAlign: 'center',
   },
   button: {
     height: 40,

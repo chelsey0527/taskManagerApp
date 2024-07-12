@@ -51,7 +51,9 @@ const LogInScreen: React.FC<Props> = ({navigation}) => {
         navigation.navigate('Main', {userId: user?.uid});
       }
     } catch (e) {
-      setError(e.message);
+      if (e.code === 'auth/invalid-credential') {
+        setError('Incorreact e-mail or password.');
+      }
     }
   };
 

@@ -58,7 +58,7 @@ const SignUpScreen: React.FC<Props> = ({route, navigation}) => {
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
       <TextInput
-        style={styles.input}
+        style={error ? styles.errorInput : styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
@@ -66,7 +66,7 @@ const SignUpScreen: React.FC<Props> = ({route, navigation}) => {
         autoCapitalize="none"
       />
       <TextInput
-        style={styles.input}
+        style={error ? styles.errorInput : styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
