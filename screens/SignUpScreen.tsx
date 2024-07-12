@@ -7,9 +7,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {signUserUp} from '../services/auth';
-// import {useNavigation} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation';
+import {
+  validateEmail,
+  validatePassword,
+  validateRequiredField,
+} from '../utils/validators';
 
 type Props = StackScreenProps<RootStackParamList, 'SignUp'>;
 
@@ -20,10 +24,21 @@ const SignUpScreen: React.FC<Props> = ({route, navigation}) => {
 
   const handleSignUp = async () => {
     try {
-      if (!email || !password) {
+      if (!validateRequiredField(email) || !validateRequiredField(password)) {
         setError('Email and password are required');
         return;
       }
+
+      if (!validateEmail(email)) {
+        setError('Please enter a valid email address');
+        return;
+      }
+
+      if (!validatePassword(password)) {
+        setError('Password must be at least 6 characters');
+        return;
+      }
+
       const user = await signUserUp(email, password, navigation);
       setError('');
     } catch (e) {

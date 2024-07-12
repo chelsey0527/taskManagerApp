@@ -10,6 +10,11 @@ import {
 import {signUserIn} from '../services/auth';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation';
+import {
+  validateEmail,
+  validatePassword,
+  validateRequiredField,
+} from '../utils/validators';
 
 type Props = StackScreenProps<RootStackParamList, 'SignIn'>;
 
@@ -19,6 +24,21 @@ const LogInScreen: React.FC<Props> = ({navigation}) => {
   const [error, setError] = useState('');
 
   const handleSignIn = async () => {
+    if (!validateRequiredField(email) || !validateRequiredField(password)) {
+      setError('Email and password are required');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
     try {
       if (!email || !password) {
         setError('Email and password are required');
@@ -53,9 +73,7 @@ const LogInScreen: React.FC<Props> = ({navigation}) => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Text style={styles.error}>
-        {error ? 'Incorrect e-mail or password.' : ''}
-      </Text>
+      <Text style={styles.error}>{error ? error : ''}</Text>
       <TouchableOpacity style={styles.button} onPress={handleSignIn}>
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
