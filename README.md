@@ -37,19 +37,18 @@
 
 #### Prerequisites
 
-1. Install yarn
-2. Install depenencies
-
-   ```bash
-   yarn install
-   cd ios
-   pod install
-   cd ..
-   ```
+- Install yarn
+- Install depenencies for ios
+  ```bash
+  yarn install
+  cd ios
+  pod install
+  cd ..
+  ```
+  Then go to Xcode `cmd + b` to download the app onto simulator
 
 #### Start the Metro Server
 
 ```bash
-yarn start
-# Then chose the simulator you want to work with
+yarn start # Then chose the simulator you want to work with
 ```

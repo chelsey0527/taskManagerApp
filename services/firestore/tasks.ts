@@ -20,6 +20,14 @@ export const getUserTasks = async (userId: string): Promise<Task[]> => {
     querySnapshot.forEach(doc => {
       tasks.push({id: doc.id, ...doc.data()} as Task);
     });
+
+    tasks.sort((a, b) => {
+      if (a.completed === b.completed) {
+        return a.deadline - b.deadline;
+      }
+      return a.completed ? 1 : -1;
+    });
+
     return tasks;
   } catch (error) {
     console.error('Error fetching tasks: ', error);

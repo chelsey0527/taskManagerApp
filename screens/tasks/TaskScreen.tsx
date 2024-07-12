@@ -7,6 +7,7 @@ import {
   deleteTask,
   toggleTaskCompletion,
 } from '../../services/firestore';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RootStackParamList} from '../../types/navigation';
 import {Task} from '../../types/task';
 
@@ -53,15 +54,22 @@ const TaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
       <View style={styles.taskInfo}>
         <View style={styles.taskCheckbox}>
           <TouchableOpacity onPress={() => toggleComplete(item)}>
-            <View style={item.completed ? styles.checked : styles.unchecked} />
+            <Ionicons
+              name={item.completed ? 'checkbox-outline' : 'square-outline'}
+              size={24}
+              color={item.completed ? 'salmon' : '#ccc'}
+              style={styles.taskCheckboxIcon}
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.taskDetails}>
           <Text style={styles.taskName}>{item.name}</Text>
           <View style={styles.taskMeta}>
-            <Text style={styles.taskCategory}>{item.category}</Text>
+            <View style={styles.taskCategoryTag}>
+              <Text style={styles.taskCategoryText}>{item.category}</Text>
+            </View>
             <Text style={styles.taskDate}>
-              {new Date(item.deadline).toLocaleDateString()}
+              Due {new Date(item.deadline).toLocaleDateString()}
             </Text>
           </View>
         </View>
@@ -136,6 +144,9 @@ const styles = StyleSheet.create({
   taskCheckbox: {
     marginRight: 12,
   },
+  taskCheckboxIcon: {
+    marginRight: 12,
+  },
   unchecked: {
     width: 24,
     height: 24,
@@ -161,8 +172,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  taskCategory: {
+  taskCategoryTag: {
+    backgroundColor: '#e0e0e0',
+    borderRadius: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     marginRight: 8,
+  },
+  taskCategoryText: {
     color: '#777',
   },
   taskDate: {
