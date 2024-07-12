@@ -1,13 +1,15 @@
 import {db} from '../../config/firebase-config';
 import {
   collection,
+  doc,
+  getDoc,
   getDocs,
   addDoc,
   updateDoc,
   deleteDoc,
-  doc,
   query,
   where,
+  increment,
 } from 'firebase/firestore';
 import {Task} from '../../types/task';
 
@@ -74,11 +76,68 @@ export const updateTask = async (id: string, task: Partial<Task>) => {
   }
 };
 
+// Helper function to update leaderboard
+const updateLeaderboardOnTaskChange = async (
+  userId: string,
+  task: Task,
+  isTaskDeleted: boolean,
+) => {
+  try {
+    const leaderboardRef = doc(db, 'leaderboard', userId);
+    const incrementValue = isTaskDeleted ? -1 : 1;
+    const now = new Date().getTime();
+    const taskDeadline = new Date(task.deadline).getTime();
+
+    const updates: any = {};
+    if (taskDeadline >= getStartOfPeriod('day')) {
+      updates.dailyCount = increment(incrementValue);
+    }
+    if (taskDeadline >= getStartOfPeriod('week')) {
+      updates.weeklyCount = increment(incrementValue);
+    }
+    if (taskDeadline >= getStartOfPeriod('month')) {
+      updates.monthlyCount = increment(incrementValue);
+    }
+
+    await updateDoc(leaderboardRef, updates);
+  } catch (error) {
+    console.error('Error updating leaderboard: ', error);
+    throw error;
+  }
+};
+
+// Helper function to get the start of the period
+const getStartOfPeriod = (period: 'day' | 'week' | 'month') => {
+  const now = new Date();
+  if (period === 'day') {
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  } else if (period === 'week') {
+    const firstDayOfWeek = now.getDate() - now.getDay();
+    return new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      firstDayOfWeek,
+    ).getTime();
+  } else if (period === 'month') {
+    return new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+  }
+  return now.getTime();
+};
+
 // Function to delete a task
-export const deleteTask = async (id: string) => {
+export const deleteTask = async (id: string, userId: string) => {
   try {
     const taskRef = doc(db, 'tasks', id);
+    const taskDoc = await getDoc(taskRef);
+
+    if (!taskDoc.exists()) {
+      throw new Error('Task not found');
+    }
+
+    const taskData = taskDoc.data() as Task;
+
     await deleteDoc(taskRef);
+    await updateLeaderboardOnTaskChange(userId, taskData, true);
   } catch (error) {
     console.error('Error deleting task: ', error);
     throw error;

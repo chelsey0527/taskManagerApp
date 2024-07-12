@@ -44,7 +44,7 @@ const TaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
   };
 
   const handleDelete = async (id: string) => {
-    await deleteTask(id);
+    await deleteTask(id, userId);
     const updatedTasks = await getUserTasks(userId);
     setTasks(updatedTasks);
   };
