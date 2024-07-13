@@ -78,11 +78,6 @@ const BottomTabNavigator: React.FC<BottomTabNavigatorProps> = ({
 
 const styles = StyleSheet.create({
   buttonAddTask: {
-    // top: -20,
-    // shadowColor: 'black',
-    // shadowOpacity: 0.25,
-    // shadowOffset: {width: 0, height: 10},
-    // shadowRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 20,
