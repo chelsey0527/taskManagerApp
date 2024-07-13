@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import {getLeaderboard} from '../../services/firestore';
 
@@ -18,6 +25,7 @@ const LeaderboardScreen: React.FC = () => {
   const [timePeriod, setTimePeriod] = useState<
     'dailyCount' | 'weeklyCount' | 'monthlyCount'
   >('dailyCount');
+  const [modalVisible, setModalVisible] = useState(false);
   const isFocused = useIsFocused();
 
   const fetchLeaderboard = async () => {
@@ -50,31 +58,52 @@ const LeaderboardScreen: React.FC = () => {
     </View>
   );
 
+  const timePeriodOptions = [
+    {label: 'Daily', value: 'dailyCount'},
+    {label: 'Weekly', value: 'weeklyCount'},
+    {label: 'Monthly', value: 'monthlyCount'},
+  ];
+
   return (
     <View style={styles.container}>
-      <View style={styles.filterContainer}>
+      <TouchableOpacity
+        style={styles.dropdown}
+        onPress={() => setModalVisible(true)}>
+        <Text style={styles.dropdownText}>
+          Time period:{' '}
+          {timePeriodOptions.find(option => option.value === timePeriod)?.label}
+        </Text>
+      </TouchableOpacity>
+
+      <Modal
+        transparent={true}
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}>
         <TouchableOpacity
-          onPress={() => setTimePeriod('dailyCount')}
-          style={styles.filterButton}>
-          <Text style={styles.filterText}>Daily</Text>
+          style={styles.modalOverlay}
+          onPress={() => setModalVisible(false)}>
+          <View style={styles.modalContent}>
+            {timePeriodOptions.map(option => (
+              <TouchableOpacity
+                key={option.value}
+                style={styles.modalItem}
+                onPress={() => {
+                  setTimePeriod(option.value);
+                  setModalVisible(false);
+                }}>
+                <Text style={styles.modalItemText}>{option.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setTimePeriod('weeklyCount')}
-          style={styles.filterButton}>
-          <Text style={styles.filterText}>Weekly</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setTimePeriod('monthlyCount')}
-          style={styles.filterButton}>
-          <Text style={styles.filterText}>Monthly</Text>
-        </TouchableOpacity>
-      </View>
+      </Modal>
 
       {leaderboard.length === 0 ? (
-        <View style={styles.emptyContiner}>
-          <Text style={styles.emptyContinerText}>No record.</Text>
-          <Text style={styles.emptyContinerText}>
-            Try to finish a task to be the firstone!
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyContainerText}>No record.</Text>
+          <Text style={styles.emptyContainerText}>
+            Try to finish a task to be the first one!
           </Text>
         </View>
       ) : (
@@ -95,28 +124,43 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: 'white',
   },
-  emptyContiner: {
+  emptyContainer: {
     flex: 1,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  emptyContinerText: {
+  emptyContainerText: {
     textAlign: 'center',
   },
-  filterContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  dropdown: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    borderRadius: 8,
+    backgroundColor: 'white',
     marginBottom: 16,
   },
-  filterButton: {
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: 'salmon',
+  dropdownText: {
+    color: 'black',
   },
-  filterText: {
-    color: 'white',
-    fontWeight: 'bold',
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    width: 300,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 16,
+  },
+  modalItem: {
+    paddingVertical: 12,
+  },
+  modalItemText: {
+    fontSize: 16,
   },
   listContainer: {
     paddingBottom: 16,
