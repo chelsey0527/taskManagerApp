@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {addTask} from '../../services/firestore';
 import {StackScreenProps} from '@react-navigation/stack';
+import {useIsFocused} from '@react-navigation/native';
 import {RootStackParamList} from '../../types/navigation';
 import {validateRequiredField, validateDate} from '../../utils/validators';
 
@@ -20,7 +21,16 @@ const NewTaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [deadline, setDeadline] = useState('');
+  const isFocused = useIsFocused();
   const [error, setError] = useState('');
+
+  const clearInput = () => {
+    setName('');
+    setCategory('');
+    setDescription('');
+    setDeadline('');
+    setError('');
+  };
 
   const handleAddTask = async () => {
     if (
@@ -47,6 +57,7 @@ const NewTaskScreen: React.FC<Props> = ({userId, route, navigation}) => {
       completed: false,
     };
     await addTask(newTask);
+    clearInput();
     navigation.navigate('Tasks', {userId});
   };
 
