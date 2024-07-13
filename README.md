@@ -1,5 +1,8 @@
 # taskManagerApp
 
+- [Android demo](https://drive.google.com/file/d/18WUOV9_ho-BHNvqW0WBKKQtQiTelmvHe/view?usp=sharing)
+- [iOS demo](https://drive.google.com/file/d/1DlanYBhehSK39m7Uxt2AmQPr14BJzkcW/view?usp=sharing)
+
 ## 📖 Table of Contents 📖
 
 1. [To-do's](##To-do's)
@@ -62,6 +65,7 @@ Install depenencies for ios
 cd ios
 pod install
 cd ..
+yarn ios
 ```
 
 Then go to Xcode `cmd + b` to build the app with the following step to run (install) the app on to your simulator.
@@ -76,6 +80,7 @@ If the App did not opend automatically, click the logo to manually open it.
 ### For Android
 
 ```bash
+yarn android
 yarn start # Then chose a
 ```
 
